@@ -8,7 +8,9 @@ MDComputers runs on **OpenCart**, and search results are served at:
 https://www.mdcomputers.in/?route=product/search&search=<keyword>
 ## 🔗 Live Demo
 
-Try it here: http://localhost:8501
+Try it here: ## 🔗 Live Demo
+
+Try it here: **[https://mdcomputers-scraper.streamlit.app/](https://mdcomputers-scraper.streamlit.app/)**
 
 ## Features
 
