@@ -9,6 +9,20 @@ st.set_page_config(
     page_icon="🖥️",
     layout="wide",
 )
+st.markdown(
+    """
+    <link rel="manifest" href="./app/static/manifest.json">
+    <meta name="theme-color" content="#1F2937">
+    <link rel="apple-touch-icon" href="./app/static/icon-192.png">
+    <script>
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('./app/static/service-worker.js')
+          .catch(function(err) { console.log('SW registration failed:', err); });
+      }
+    </script>
+    """,
+    unsafe_allow_html=True,
+)
 
 st.title("🖥️ MDComputers Product Scraper")
 st.caption(
