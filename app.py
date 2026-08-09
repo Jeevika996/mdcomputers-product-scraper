@@ -1,5 +1,6 @@
 
 import streamlit as st
+import streamlit.components.v1 as components
 import pandas as pd
 
 from mdcomputers_scraper import MDComputersScraper
@@ -9,19 +10,48 @@ st.set_page_config(
     page_icon="🖥️",
     layout="wide",
 )
-st.markdown(
+components.html(
     """
-    <link rel="manifest" href="./app/static/manifest.json">
-    <meta name="theme-color" content="#1F2937">
-    <link rel="apple-touch-icon" href="./app/static/icon-192.png">
     <script>
-      if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('./app/static/service-worker.js')
-          .catch(function(err) { console.log('SW registration failed:', err); });
-      }
+      (function () {
+        const head = window.parent.document.head;
+
+        const manifestLink = document.createElement('link');
+        manifestLink.rel = 'manifest';
+        manifestLink.href = './app/static/manifest.json';
+        head.appendChild(manifestLink);
+
+        const themeMeta = document.createElement('meta');
+        themeMeta.name = 'theme-color';
+        themeMeta.content = '#1F2937';
+        head.appendChild(themeMeta);
+
+        const appleIcon = document.createElement('link');
+        appleIcon.rel = 'apple-touch-icon';
+        appleIcon.href = './app/static/icon-192.png';
+        head.appendChild(appleIcon);
+
+        const appleCapable = document.createElement('meta');
+        appleCapable.name = 'apple-mobile-web-app-capable';
+        appleCapable.content = 'yes';
+        head.appendChild(appleCapable);
+
+        const appleTitle = document.createElement('meta');
+        appleTitle.name = 'apple-mobile-web-app-title';
+        appleTitle.content = 'MD Scraper';
+        head.appendChild(appleTitle);
+
+        if ('serviceWorker' in navigator) {
+          navigator.serviceWorker
+            .register('./app/static/service-worker.js')
+            .catch(function (err) {
+              console.log('SW registration failed:', err);
+            });
+        }
+      })();
     </script>
     """,
-    unsafe_allow_html=True,
+    height=0,
 )
 
 st.title("🖥️ MDComputers Product Scraper")
@@ -84,15 +114,3 @@ if submitted:
             )
 
             csv_data = df.to_csv(index=False).encode("utf-8")
-            st.download_button(
-                "⬇️ Download results as CSV",
-                data=csv_data,
-                file_name=f"{keyword.replace(' ', '_')}_results.csv",
-                mime="text/csv",
-            )
-
-st.divider()
-st.caption(
-    "Built with Python, BeautifulSoup, and Streamlit. "
-    "Not affiliated with MDComputers.in — for educational/portfolio use."
-)
